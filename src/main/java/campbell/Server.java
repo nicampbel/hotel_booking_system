@@ -7,6 +7,8 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import com.google.gson.Gson;
+
 public class Server {
     public static void main(String[] args) {
         final int PORT = 12345;
@@ -25,39 +27,61 @@ public class Server {
             e.printStackTrace();
         }
     }
-}
 
-class ClientHandler implements Runnable {
-    private Socket clientSocket;
-    private PrintWriter out;
-    private BufferedReader in;
+    static class ClientHandler implements Runnable {
+        private Socket clientSocket;
+        private PrintWriter out;
+        private BufferedReader in;
+        private Gson gson;
 
-    public ClientHandler(Socket socket) {
-        this.clientSocket = socket;
-    }
+        public ClientHandler(Socket socket) {
+            this.clientSocket = socket;
+            this.gson = new Gson();
+        }
 
-    @Override
-    public void run() {
-        try {
-            out = new PrintWriter(clientSocket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        @Override
+        public void run() {
+            try {
+                out = new PrintWriter(clientSocket.getOutputStream(), true);
+                in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-            String inputLine;
-            while ((inputLine = in.readLine()) != null) {
-                // Handle incoming JSON data
-                System.out.println("Received from client: " + inputLine);
+                String inputLine;
+                while ((inputLine = in.readLine()) != null) {
+                    // Parse JSON message to RequestMessage object
+                    RequestMessage request = gson.fromJson(inputLine, RequestMessage.class);
+                    System.out.println("Received from client: " + request.getType());
 
-                // Example: Send response back to client
-                String response = "{\"message\": \"Server received: " + inputLine + "\"}";
-                out.println(response);
+                    // Process request based on type
+                    if (request.getType().equals("bookRoom")) {
+                        String roomNumber = request.getRoomNumber();
+                        System.out.println("Room number to book: " + roomNumber);
+                        // Process booking logic for the room number
+                    } else if (request.getType().equals("cancelBooking")) {
+                        String roomNumber = request.getRoomNumber();
+                        System.out.println("Room number to cancel booking: " + roomNumber);
+                        // Process cancel booking logic for the room number
+                    } else {
+                        System.out.println("Invalid request type");
+                        // Handle invalid request type
+                    }
+
+                    // Process request and prepare response
+                    ResponseMessage response = new ResponseMessage("OK");
+
+                    // Convert ResponseMessage object to JSON string and send to client
+                    out.println(gson.toJson(response));
+                }
+
+                in.close();
+                out.close();
+                clientSocket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-
-            in.close();
-            out.close();
-            clientSocket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 }
+
+
+
 
