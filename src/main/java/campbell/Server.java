@@ -52,24 +52,28 @@ public class Server {
                     System.out.println("Received from client: " + request.getType());
 
                     // Process request based on type
-                    if (request.getType().equals("bookRoom")) {
+                    if (request.getType().equals("makeBooking")) {
                         String roomNumber = request.getRoomNumber();
-                        System.out.println("Room number to book: " + roomNumber);
-                        // Process booking logic for the room number
+                        System.out.println("Book room " + roomNumber);
+
+                        // Booking Code
+
+                        ResponseMessage response = new ResponseMessage("Booked");
+                        out.println(gson.toJson(response));
                     } else if (request.getType().equals("cancelBooking")) {
                         String roomNumber = request.getRoomNumber();
-                        System.out.println("Room number to cancel booking: " + roomNumber);
-                        // Process cancel booking logic for the room number
+                        System.out.println("Cancel room " + roomNumber);
+
+                        // Cancel Code
+
+                        ResponseMessage response = new ResponseMessage("Cancelled");
+                        out.println(gson.toJson(response));
                     } else {
                         System.out.println("Invalid request type");
                         // Handle invalid request type
                     }
 
-                    // Process request and prepare response
-                    ResponseMessage response = new ResponseMessage("OK");
 
-                    // Convert ResponseMessage object to JSON string and send to client
-                    out.println(gson.toJson(response));
                 }
 
                 in.close();

@@ -4,8 +4,8 @@
 - UI input captured and sent to server
 
 # Change:
-- UI only captures input and sends room selection to server; logic happens in Server
-- Update UI based on server feedback
+DONE UI only captures input and sends room selection to server; logic happens in Server
+DONE Update UI based on server feedback
 
 # To do:
 - Add text file

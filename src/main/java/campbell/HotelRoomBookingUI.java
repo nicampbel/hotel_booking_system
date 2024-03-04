@@ -6,7 +6,9 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.List;
@@ -24,6 +26,7 @@ public class HotelRoomBookingUI extends JFrame {
     private final String SERVER_IP = "localhost";
     private final int SERVER_PORT = 12345;
     private PrintWriter out;
+    private BufferedReader in;
     private Gson gson;
 
     public HotelRoomBookingUI(Hotel hotel) {
@@ -70,6 +73,7 @@ public class HotelRoomBookingUI extends JFrame {
         try {
             Socket socket = new Socket(SERVER_IP, SERVER_PORT);
             out = new PrintWriter(socket.getOutputStream(), true);
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream())); // Initialize BufferedReader
             gson = new Gson();
         } catch (IOException e) {
             e.printStackTrace();
@@ -92,38 +96,33 @@ public class HotelRoomBookingUI extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            //SEND ROOM NUMBER
             if (room.isAvailable()) {
-                bookRoom(room.getRoomNumber());
+                RequestMessage request = new RequestMessage("makeBooking");
+                request.setRoomNumber(room.getRoomNumber()); // Set room number
+                String jsonRequest = gson.toJson(request);
+                out.println(jsonRequest);
             } else {
-                cancelBooking(room.getRoomNumber());
+                RequestMessage request = new RequestMessage("cancelBooking");
+                request.setRoomNumber(room.getRoomNumber()); // Set room number
+                String jsonRequest = gson.toJson(request);
+                out.println(jsonRequest);
             }
-            // updateUI();
+            
+            // Receive and process response from the server
+            try {
+            String jsonResponse = in.readLine();
+            ResponseMessage response = gson.fromJson(jsonResponse, ResponseMessage.class);
+            // Process response here (e.g., update UI based on response)
+            if (response.getStatus().equals("Booked"))
+                room.bookRoom();
+            if (response.getStatus().equals("Cancelled"))
+                room.cancelBooking();
+            updateUI();
+            System.out.println("Server response: " + response.getStatus());
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
-    }
-
-    private void bookRoom(String roomNumber) {
-        // Send booking request to server
-        RequestMessage request = new RequestMessage("bookRoom");
-        request.setRoomNumber(roomNumber); // Set room number
-        String jsonRequest = gson.toJson(request);
-        out.println(jsonRequest);
-
-        // Handle response from server if needed
-        // For simplicity, we are not waiting for a response in this example
-        // You may want to update the UI based on the response received from the server
-        updateUI();
-    }
-
-    private void cancelBooking(String roomNumber) {
-        // Send cancel booking request to server
-        RequestMessage request = new RequestMessage("cancelBooking");
-        request.setRoomNumber(roomNumber); // Set room number
-        String jsonRequest = gson.toJson(request);
-        out.println(jsonRequest);
-
-        // Handle response from server if needed
-        // For simplicity, we are not waiting for a response in this example
-        // You may want to update the UI based on the response received from the server
-        updateUI();
     }
 }
