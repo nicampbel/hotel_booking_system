@@ -56,7 +56,6 @@ private void initComponents() {
     setLocationRelativeTo(null);
 }
 
-
     public void updateUI() {
         getContentPane().removeAll();
         initComponents();
