@@ -1,46 +1,44 @@
 package campbell;
 
-import java.util.List;
+import javax.swing.SwingUtilities;
 
 public class App
 {
     public static void main(String[] args) {
-    // Initialize the hotel
-    Hotel hotel = new Hotel();
+        // Initialize the hotel
+        Hotel hotel = new Hotel();
 
-    // Access the floors and rooms in the hotel
-    List<Floor> floors = hotel.getFloors();
-    for (Floor floor : floors) {
-        System.out.println("Floor " + floor.getFloorNumber() + ":");
-        List<Room> rooms = floor.getRooms();
-        for (Room room : rooms) {
-            System.out.println("Room " + room.getRoomNumber() + " - Status: " + room.getStatus());
-        }
-    }
+        // Declare bookingUI as final variable
+        final HotelRoomBookingUI[] bookingUI = {null};
 
-    // Book a room and display the updated status
-    Room roomToBook = hotel.getRoom("1a");
-    if (roomToBook != null && roomToBook.isAvailable()) {
-        roomToBook.bookRoom();
-    }
-    System.out.println("\nAfter booking Room 1a:");
-    for (Floor floor : floors) {
-        List<Room> rooms = floor.getRooms();
-        for (Room room : rooms) {
-            System.out.println("Room " + room.getRoomNumber() + " - Status: " + room.getStatus());
-        }
-    }
+        // Create the UI
+        SwingUtilities.invokeLater(() -> {
+            bookingUI[0] = new HotelRoomBookingUI(hotel);
+            bookingUI[0].setVisible(true);
+        });
 
-    // Cancel the booking and display the updated status
-    if (roomToBook != null) {
-        roomToBook.cancelBooking();
-    }
-    System.out.println("\nAfter canceling booking for Room 1a:");
-    for (Floor floor : floors) {
-        List<Room> rooms = floor.getRooms();
-        for (Room room : rooms) {
-            System.out.println("Room " + room.getRoomNumber() + " - Status: " + room.getStatus());
+        // Simulate booking and canceling rooms after 3 seconds
+        try {
+            Thread.sleep(3000); // Wait for 3 seconds
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+
+        // Simulate booking Room 1a
+        Room room1a = hotel.getRoom("1a");
+        if (room1a != null && room1a.isAvailable()) {
+            room1a.bookRoom();
+        }
+
+        // Simulate canceling booking for Room 2c
+        Room room2c = hotel.getRoom("2c");
+        if (room2c != null && !room2c.isAvailable()) {
+            room2c.cancelBooking();
+        }
+
+        // Update the UI
+        SwingUtilities.invokeLater(() -> {
+            bookingUI[0].updateUI();
+        });
     }
-}
 }
