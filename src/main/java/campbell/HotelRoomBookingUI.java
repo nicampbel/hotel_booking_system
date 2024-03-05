@@ -74,8 +74,9 @@ public class HotelRoomBookingUI extends JFrame {
     }
 
     private void initializeClient() {
+        Socket socket = null; // Declare the socket variable outside the try block
         try {
-            Socket socket = new Socket(SERVER_IP, SERVER_PORT);
+            socket = new Socket(SERVER_IP, SERVER_PORT);
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream())); // Initialize BufferedReader
             gson = new Gson();
@@ -91,7 +92,9 @@ public class HotelRoomBookingUI extends JFrame {
             System.out.println("Received hotel data from the server.");
             System.out.println("Number of floors: " + this.hotel.getFloors().size());
 
-
+            // in.close();
+            // out.close();
+            // socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
