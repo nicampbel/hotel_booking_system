@@ -8,7 +8,7 @@ DONE UI only captures input and sends room selection to server; logic happens in
 DONE Update UI based on server feedback
 
 # To do:
-- Add text file
-- Add population of UI from text file upon startup
+DONE Add text file → JSON FILE
+DONE Add population of UI from text (JSON) file upon startup
 
 
