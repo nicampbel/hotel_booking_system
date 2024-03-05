@@ -1,3 +1,11 @@
+/*
+ * ╔════════════════════════════════════════════════════╗
+ * ║                  File: Floor.java                  ║
+ * ║  Description: Floor Class                          ║
+ * ║  Author: NE Campbell, 2024                         ║
+ * ╚════════════════════════════════════════════════════╝
+ */
+
 package campbell;
 
 import java.util.ArrayList;

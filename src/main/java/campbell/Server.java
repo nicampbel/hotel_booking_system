@@ -1,3 +1,14 @@
+/*
+ * ╔════════════════════════════════════════════════════╗
+ * ║                  File: Server.java                 ║
+ * ║  Description:                                      ║
+ * ║  ------------                                      ║
+ * ║  Establishes the Server and JSON Loading           ║
+ * ║                                                    ║
+ * ║  Author: NE Campbell, 2024                         ║
+ * ╚════════════════════════════════════════════════════╝
+ */
+
 package campbell;
 
 import java.io.BufferedReader;

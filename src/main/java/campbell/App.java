@@ -1,3 +1,14 @@
+/*
+ * ╔════════════════════════════════════════════════════╗
+ * ║                  File: App.java                    ║
+ * ║  Description:                                      ║
+ * ║  ------------                                      ║
+ * ║  Runs the setup of the UI/Client                   ║
+ * ║                                                    ║
+ * ║  Author: NE Campbell, 2024                         ║
+ * ╚════════════════════════════════════════════════════╝
+ */
+
 package campbell;
 
 import javax.swing.SwingUtilities;

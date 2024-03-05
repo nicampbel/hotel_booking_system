@@ -1,3 +1,11 @@
+/*
+ * ╔════════════════════════════════════════════════════╗
+ * ║             File: ResponseMessage.java             ║
+ * ║  Description: Response message class               ║
+ * ║  Author: NE Campbell, 2024                         ║
+ * ╚════════════════════════════════════════════════════╝
+ */
+
 package campbell;
 
 import java.io.Serializable;

@@ -1,3 +1,11 @@
+/*
+ * ╔════════════════════════════════════════════════════╗
+ * ║              File: RequestMessage.java             ║
+ * ║  Description: Request message class                ║
+ * ║  Author: NE Campbell, 2024                         ║
+ * ╚════════════════════════════════════════════════════╝
+ */
+
 package campbell;
 
 import java.io.Serializable;

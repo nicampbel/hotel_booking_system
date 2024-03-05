@@ -1,3 +1,14 @@
+/*
+ * ╔════════════════════════════════════════════════════╗
+ * ║             File: HotelRoomBookingUI.java          ║
+ * ║  Description:                                      ║
+ * ║  ------------                                      ║
+ * ║  Establishes and Runs the UI/Client                ║
+ * ║                                                    ║
+ * ║  Author: NE Campbell, 2024                         ║
+ * ╚════════════════════════════════════════════════════╝
+ */
+
 package campbell;
 
 import java.awt.BorderLayout;

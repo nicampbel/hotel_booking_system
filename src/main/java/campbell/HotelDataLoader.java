@@ -1,3 +1,14 @@
+/*
+ * ╔════════════════════════════════════════════════════╗
+ * ║                  File: HotelDataLoader.java        ║
+ * ║  Description:                                      ║
+ * ║  ------------                                      ║
+ * ║  Loads JSON data and returns object                ║
+ * ║                                                    ║
+ * ║  Author: NE Campbell, 2024                         ║
+ * ╚════════════════════════════════════════════════════╝
+ */
+
 package campbell;
 
 import java.io.BufferedReader;

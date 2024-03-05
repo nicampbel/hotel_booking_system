@@ -1,3 +1,11 @@
+/*
+ * ╔════════════════════════════════════════════════════╗
+ * ║                  File: Room.java                   ║
+ * ║  Description: Room Class                           ║
+ * ║  Author: NE Campbell, 2024                         ║
+ * ╚════════════════════════════════════════════════════╝
+ */
+
 package campbell;
 
 public class Room {
