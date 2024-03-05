@@ -3,6 +3,8 @@ package campbell;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.Gson;
+
 public class Hotel {
     private List<Floor> floors;
 
@@ -29,5 +31,9 @@ public class Hotel {
             }
         }
         return null;
+    }
+    public String toJson() {
+        Gson gson = new Gson();
+        return gson.toJson(this);
     }
 }
