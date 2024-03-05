@@ -14,28 +14,25 @@ public class Server {
     public static void main(String[] args) {
         final int PORT = 12345;
 
-        // LOAD Hotel Data From JSON file
+        // Load Hotel Data from json File
         Hotel hotel = HotelDataLoader.loadHotelData();
         if (hotel == null) {
             System.out.println("Failed to load hotel data. Exiting...");
             return; // Exit the application if hotel data loading failed
         }
-
+        // Create Server
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             System.out.println("Server started. Waiting for clients...");
 
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("Client connected: " + clientSocket);
-
                 // Handle client in a separate thread
                 new Thread(new ClientHandler(clientSocket, hotel)).start();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        // SEND HOTEL DATA TO GUI
     }
 
     static class ClientHandler implements Runnable {
@@ -61,34 +58,27 @@ public class Server {
                 while ((inputLine = in.readLine()) != null) {
                     // Parse JSON message to RequestMessage object
                     RequestMessage request = gson.fromJson(inputLine, RequestMessage.class);
-                    System.out.println("Received from client: " + request.getType());
+                    System.out.println("Received from client: " + request.getType() + " " + request.getRoomNumber());
 
                     // Process request based on type
                     if (request.getType().equals("makeBooking")) {
-                        String roomNumber = request.getRoomNumber();
-                        System.out.println("Book room " + roomNumber);
-                        
-                        bookRoom(roomNumber);
+                        processBooking(request.getRoomNumber(), true);
                         ResponseMessage response = new ResponseMessage("Booked");
                         out.println(gson.toJson(response));
 
                     } else if (request.getType().equals("cancelBooking")) {
-                        String roomNumber = request.getRoomNumber();
-                        System.out.println("Cancel room " + roomNumber);
-
-                        cancelBooking(roomNumber);
+                        processBooking(request.getRoomNumber(), false);
                         ResponseMessage response = new ResponseMessage("Cancelled");
                         out.println(gson.toJson(response));
 
-                    } else if(request.getType().equals("getData")){
+                    } else if (request.getType().equals("getData")) {
                         // Send hotel data to the client
                         sendHotelDataToClient(clientSocket, hotel);
-                    }
-                    else {
+                    } else {
                         System.out.println("Invalid request type");
-                        // Handle invalid request type
                     }
                 }
+                // sendHotelDataToClient(clientSocket, hotel);
                 in.close();
                 out.close();
                 clientSocket.close();
@@ -97,26 +87,15 @@ public class Server {
             }
         }
 
-        private void bookRoom(String roomNumber) {
-            // Find the room in the hotel object and update its status to "Booked"
+        private synchronized void processBooking(String roomNumber, boolean book) {
             for (Floor floor : hotel.getFloors()) {
                 for (Room room : floor.getRooms()) {
                     if (room.getRoomNumber().equals(roomNumber)) {
-                        room.bookRoom();
-                        saveHotelData(); // Save the updated hotel data
-                        return;
-                    }
-                }
-            }
-        }
-
-        private void cancelBooking(String roomNumber) {
-            // Find the room in the hotel object and update its status to "Empty"
-            for (Floor floor : hotel.getFloors()) {
-                for (Room room : floor.getRooms()) {
-                    if (room.getRoomNumber().equals(roomNumber)) {
-                        room.cancelBooking();
-                        saveHotelData(); // Save the updated hotel data
+                        if (book)
+                            room.bookRoom();
+                        else
+                            room.cancelBooking();
+                        saveHotelData();
                         return;
                     }
                 }

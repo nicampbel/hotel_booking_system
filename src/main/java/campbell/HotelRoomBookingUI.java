@@ -50,8 +50,6 @@ public class HotelRoomBookingUI extends JFrame {
             List<Room> rooms = floor.getRooms();
             for (Room room : rooms) {
                 JButton roomButton = new JButton(room.getRoomNumber());
-
-                // Set button size
                 roomButton.setPreferredSize(new Dimension(100, 100));
 
                 // Set button colors based on room status
@@ -92,9 +90,6 @@ public class HotelRoomBookingUI extends JFrame {
             System.out.println("Received hotel data from the server.");
             System.out.println("Number of floors: " + this.hotel.getFloors().size());
 
-            // in.close();
-            // out.close();
-            // socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -128,7 +123,6 @@ public class HotelRoomBookingUI extends JFrame {
                 String jsonRequest = gson.toJson(request);
                 out.println(jsonRequest);
             }
-            
             // Receive and process response from the server
             try {
                 String jsonResponse = in.readLine();
@@ -142,7 +136,7 @@ public class HotelRoomBookingUI extends JFrame {
                 System.out.println("Server response: " + response.getStatus());
                 } catch (IOException ex) {
                     ex.printStackTrace();
-                }
+            }
         }
     }
 }

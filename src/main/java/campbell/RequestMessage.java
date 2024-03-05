@@ -4,8 +4,7 @@ import java.io.Serializable;
 
 public class RequestMessage implements Serializable {
     private String type;
-    private String roomNumber; // New field for room number
-    // Add other fields as needed
+    private String roomNumber;
 
     public RequestMessage(String type) {
         this.type = type;
@@ -22,7 +21,5 @@ public class RequestMessage implements Serializable {
     public void setRoomNumber(String roomNumber) {
     this.roomNumber = roomNumber;
     }
-
-    // Add getters and setters for other fields
 }
 
