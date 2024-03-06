@@ -1,3 +1,15 @@
+/*
+ * ╔════════════════════════════════════════════════════╗
+ * ║                  File: Run.java                    ║
+ * ║  Description:                                      ║
+ * ║  ------------                                      ║
+ * ║  Runs the Server and App on seperate threads with  ║
+ * ║  small delay to allow server to start              ║
+ * ║                                                    ║
+ * ║  Author: NE Campbell, 2024                         ║
+ * ╚════════════════════════════════════════════════════╝
+ */
+
 package campbell;
 
 public class Run {
