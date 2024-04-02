@@ -20,6 +20,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class Server {
     public static void main(String[] args) {
@@ -115,7 +116,7 @@ public class Server {
 
         private void saveHotelData() {
             // Save the updated hotel data back to the JSON file
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create(); // thanks Abby
             try (FileWriter writer = new FileWriter("src/main/resources/hotel_data.json")) {
                 gson.toJson(hotel, writer);
             } catch (IOException e) {
